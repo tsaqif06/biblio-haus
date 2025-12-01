@@ -40,7 +40,7 @@ export default function LandingPage() {
                         </Button>
                         <Button 
                             className={`cursor-pointer`}
-                            onClick={() => navigate("/admin/login")}>
+                            onClick={() => navigate("/login/admin")}>
                             Masuk Sebagai Admin
                         </Button>
                     </div>

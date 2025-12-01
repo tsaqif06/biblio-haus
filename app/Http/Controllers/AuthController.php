@@ -11,18 +11,25 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
+            'name' => 'required|string|max:255',
+            'nisn' => 'required|string|unique:users,nisn',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
+            'role' => 'nullable|string',
         ]);
 
         $user = User::create([
             'name' => $request->name,
+            'nisn' => $request->nisn,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role ?? 'user',
         ]);
 
-        return response()->json(['message' => 'Registered successfully'], 201);
+        return response()->json([
+            'message' => 'Registered successfully',
+            'user' => $user
+        ], 201);
     }
 
     public function login(Request $request)
@@ -39,9 +46,12 @@ class AuthController extends Controller
         ];
     }
 
-    public function profile(Request $request)
+     public function profile(Request $request)
     {
-        return $request->user();
+        //dd($request->user()->role);
+        return response()->json([
+            'user' => $request->user(),
+        ]);
     }
 
     public function logout(Request $request)

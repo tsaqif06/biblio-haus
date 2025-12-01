@@ -4,6 +4,15 @@ const api = axios.create({
     baseURL: "http://localhost:8000/api",
 });
 
+// AMBIL TOKEN DARI LOCALSTORAGE → setiap refresh tetap login
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem("auth_token");
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
+
 // LOGIN
 export async function login(email: string, password: string) {
     const res = await api.post("/login", { email, password });
@@ -12,28 +21,31 @@ export async function login(email: string, password: string) {
 
     localStorage.setItem("auth_token", token);
 
-    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
     return res.data;
 }
 
-// GET PROFILE
-export async function getProfile() {
-    const token = localStorage.getItem("auth_token");
-
-    if (token) {
-        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    }
-
-    const res = await api.get("/profile");
+// REGISTER
+export async function registerUser(payload: {
+    name: string;
+    nisn: string;
+    email: string;
+    password: string;
+    role?: string;
+}) {
+    const res = await api.post("/register", payload);
     return res.data;
+}
+
+// GET PROFILE (cek role user)
+export async function getProfile() {
+    const res = await api.get("/profile");
+    return res.data.user;
 }
 
 // LOGOUT
 export async function logout() {
-    const res = await api.post("/logout");
     localStorage.removeItem("auth_token");
-    return res.data;
+    return api.post("/logout");
 }
 
 export default api;

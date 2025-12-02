@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
+use App\Models\ReadingHistory;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
-use App\Http\Controllers\ReadingHistoryController;
 
 Route::middleware('throttle:api')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -14,22 +15,32 @@ Route::middleware('throttle:api')->group(function () {
         Route::get('/profile', [AuthController::class, 'profile']);
         Route::post('/logout', [AuthController::class, 'logout']);
 
-        // Books
         Route::get('/books', [BookController::class, 'index']);
+        Route::get('/booksuser', [BookController::class, 'indexUser']);
         Route::post('/books', [BookController::class, 'store']);
         Route::get('/books/{book}', [BookController::class, 'show']);
         Route::put('/books/{book}', [BookController::class, 'update']);
         Route::delete('/books/{book}', [BookController::class, 'destroy']);
 
-        // Users
         Route::get('/users', [AuthController::class, 'fetchAll']);
         Route::post('/users', [AuthController::class, 'store']);
         Route::get('/users/{user}', [AuthController::class, 'show']);
         Route::put('/users/{user}', [AuthController::class, 'update']);
         Route::delete('/users/{user}', [AuthController::class, 'destroy']);
 
-        // Reading history
-        Route::post('/history', [ReadingHistoryController::class, 'updateProgress']);
-        Route::get('/history', [ReadingHistoryController::class, 'list']);
+        Route::post('/reading-history/open', function (Request $request) {
+            ReadingHistory::updateOrCreate(
+                [
+                    'user_id' => $request->user()->id,
+                    'book_id' => $request->book_id
+                ],
+                [
+                    'last_opened_at' => now(),
+                    'progress_page' => 0
+                ]
+            );
+
+            return response()->json(['success' => true]);
+        });
     });
 });

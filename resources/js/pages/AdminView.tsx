@@ -353,8 +353,10 @@ export default function AdminView({ onBack }: AdminViewProps) {
 
     const totalBooks = books.length;
     const totalUsers = users.length;
-    const totalBorrowed = "-";
-    const totalAvailable = totalBooks;
+    // const totalBorrowed = "-";
+    const totalCategory = Array.from(
+        new Set(books.map((book) => book.category))
+    ).length;
 
     const startIndex = (currentPage - 1) * itemsPerPage;
     const paginatedBooks = filteredBooks.slice(
@@ -438,7 +440,7 @@ export default function AdminView({ onBack }: AdminViewProps) {
 
             <div className="max-w-7xl mx-auto px-6 py-8">
                 {/* Stats Cards - Layout tetap sama, data disesuaikan */}
-                <div className="grid md:grid-cols-4 gap-6 mb-8">
+                <div className="grid md:grid-cols-3 gap-6 mb-8">
                     <Card className="p-6">
                         <div className="flex items-center justify-between mb-4">
                             <div className="bg-green-100 p-3 rounded-lg">
@@ -471,7 +473,7 @@ export default function AdminView({ onBack }: AdminViewProps) {
                         </div>
                     </Card>
 
-                    <Card className="p-6">
+                    {/* <Card className="p-6">
                         <div className="flex items-center justify-between mb-4">
                             <div className="bg-orange-100 p-3 rounded-lg">
                                 <Eye className="w-6 h-6 text-orange-600" />
@@ -485,7 +487,7 @@ export default function AdminView({ onBack }: AdminViewProps) {
                             <TrendingUp className="w-4 h-4" />
                             <span>Tracking Off</span>
                         </div>
-                    </Card>
+                    </Card> */}
 
                     <Card className="p-6">
                         <div className="flex items-center justify-between mb-4">
@@ -494,9 +496,9 @@ export default function AdminView({ onBack }: AdminViewProps) {
                             </div>
                         </div>
                         <p className="text-3xl font-bold text-gray-900 mb-1">
-                            {isLoading ? "..." : totalAvailable}
+                            {isLoading ? "..." : totalCategory}
                         </p>
-                        <p className="text-gray-600">Koleksi Digital</p>
+                        <p className="text-gray-600">Kategori Buku</p>
                         <div className="mt-2 flex items-center gap-1 text-purple-600 text-sm">
                             <TrendingUp className="w-4 h-4" />
                             <span>Tersedia</span>
@@ -608,14 +610,22 @@ export default function AdminView({ onBack }: AdminViewProps) {
 
                                             <td className="py-4 px-4 text-center">
                                                 {book.pdf_file ? (
-                                                    <a
-                                                        href={`/storage/${book.pdf_file}`}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
+                                                    <button
+                                                        onClick={() =>
+                                                            window.open(
+                                                                `/read/${book.title
+                                                                    .toLowerCase()
+                                                                    .replace(
+                                                                        /\s+/g,
+                                                                        "-"
+                                                                    )}`,
+                                                                "_blank"
+                                                            )
+                                                        }
                                                         className="flex justify-center text-blue-600 hover:text-blue-800"
                                                     >
                                                         <FileText className="w-5 h-5 cursor-pointer" />
-                                                    </a>
+                                                    </button>
                                                 ) : (
                                                     <span className="text-gray-400 text-sm">
                                                         -

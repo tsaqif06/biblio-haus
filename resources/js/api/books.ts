@@ -5,6 +5,11 @@ export async function getBooks() {
     return res.data;
 }
 
+export async function getBooksUser() {
+    const res = await api.get("/booksuser");
+    return res.data;
+}
+
 export async function getBook(id: number) {
     const res = await api.get(`/books/${id}`);
     return res.data;

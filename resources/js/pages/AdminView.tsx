@@ -73,6 +73,7 @@ export default function AdminView({ onBack }: AdminViewProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const [currentPageUser, setCurrentPageUser] = useState(1);
     const [showPass, setShowPass] = useState(false);
+
     const itemsPerPage = 5;
     const navigate = useNavigate();
 
@@ -416,12 +417,12 @@ export default function AdminView({ onBack }: AdminViewProps) {
 
                         {profileOpen && (
                             <div className="absolute right-0 mt-2 w-44 bg-white shadow-lg rounded-lg py-2 z-50">
-                                <button
+                                {/* <button
                                     className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
                                     onClick={() => navigate("/admin/profile")}
                                 >
                                     Profil Saya
-                                </button>
+                                </button> */}
 
                                 <button
                                     className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
@@ -590,9 +591,14 @@ export default function AdminView({ onBack }: AdminViewProps) {
 
                                             <td className="py-4 px-4 text-center">
                                                 {book.cover ? (
-                                                    <div className="flex justify-center text-green-600">
-                                                        <ImageIcon className="w-5 h-5" />
-                                                    </div>
+                                                    <a
+                                                        href={`/storage/${book.cover}`}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="flex justify-center text-green-600 hover:text-green-800"
+                                                    >
+                                                        <ImageIcon className="w-5 h-5 cursor-pointer" />
+                                                    </a>
                                                 ) : (
                                                     <span className="text-gray-400 text-sm">
                                                         -
@@ -602,9 +608,14 @@ export default function AdminView({ onBack }: AdminViewProps) {
 
                                             <td className="py-4 px-4 text-center">
                                                 {book.pdf_file ? (
-                                                    <div className="flex justify-center text-blue-600">
-                                                        <FileText className="w-5 h-5" />
-                                                    </div>
+                                                    <a
+                                                        href={`/storage/${book.pdf_file}`}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="flex justify-center text-blue-600 hover:text-blue-800"
+                                                    >
+                                                        <FileText className="w-5 h-5 cursor-pointer" />
+                                                    </a>
                                                 ) : (
                                                     <span className="text-gray-400 text-sm">
                                                         -
@@ -870,9 +881,14 @@ export default function AdminView({ onBack }: AdminViewProps) {
 
                                             <td className="py-4 px-4 text-center">
                                                 {user.profile_photo ? (
-                                                    <div className="flex justify-center text-green-600">
-                                                        <ImageIcon className="w-5 h-5" />
-                                                    </div>
+                                                    <a
+                                                        href={`/storage/${user.profile_photo}`}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="flex justify-center text-green-600 hover:text-green-800"
+                                                    >
+                                                        <ImageIcon className="w-5 h-5 cursor-pointer" />
+                                                    </a>
                                                 ) : (
                                                     <span className="text-gray-400 text-sm">
                                                         -

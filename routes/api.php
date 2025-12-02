@@ -21,6 +21,13 @@ Route::middleware('throttle:api')->group(function () {
         Route::put('/books/{book}', [BookController::class, 'update']);
         Route::delete('/books/{book}', [BookController::class, 'destroy']);
 
+        // Users
+        Route::get('/users', [AuthController::class, 'fetchAll']);
+        Route::post('/users', [AuthController::class, 'store']);
+        Route::get('/users/{user}', [AuthController::class, 'show']);
+        Route::put('/users/{user}', [AuthController::class, 'update']);
+        Route::delete('/users/{user}', [AuthController::class, 'destroy']);
+
         // Reading history
         Route::post('/history', [ReadingHistoryController::class, 'updateProgress']);
         Route::get('/history', [ReadingHistoryController::class, 'list']);

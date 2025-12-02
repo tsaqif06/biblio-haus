@@ -243,7 +243,7 @@ export default function LandingPage() {
                                 variant="secondary"
                                 size="lg"
                                 className={`cursor-pointer`}
-                                onClick={() => navigate("/admin/login")}
+                                onClick={() => navigate("/login/admin")}
                             >
                                 Akses Dashboard Admin
                             </Button>

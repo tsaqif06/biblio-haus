@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
     BookOpen,
     Library,
@@ -11,7 +12,45 @@ import Card from "../components/Card";
 import { useNavigate } from "react-router-dom";
 
 export default function LandingPage() {
+    const [totalBooks, setTotalBooks] = useState<number | null>(null);
+    const [totalUsers, setTotalUsers] = useState<number | null>(null);
+    const [totalCategories, setTotalCategories] = useState<number | null>(null);
+    const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        fetchStats();
+        const handler = (e: any) => {
+            e.preventDefault();
+            setDeferredPrompt(e);
+        };
+        window.addEventListener("beforeinstallprompt", handler);
+
+        return () => window.removeEventListener("beforeinstallprompt", handler);
+    }, []);
+
+    const fetchStats = async () => {
+        try {
+            const res = await fetch("/api/public/stats");
+            const data = await res.json();
+
+            setTotalBooks(data.total_books);
+            setTotalUsers(data.total_users);
+            setTotalCategories(data.total_categories);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const handleInstall = async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === "accepted") console.log("User accepted the install");
+        setDeferredPrompt(null);
+    };
+
+    if (!deferredPrompt) return null;
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50">
@@ -38,9 +77,10 @@ export default function LandingPage() {
                         >
                             Masuk Sebagai User
                         </Button>
-                        <Button 
+                        <Button
                             className={`cursor-pointer`}
-                            onClick={() => navigate("/login/admin")}>
+                            onClick={() => navigate("/login/admin")}
+                        >
                             Masuk Sebagai Admin
                         </Button>
                     </div>
@@ -57,9 +97,9 @@ export default function LandingPage() {
                             Jelajahi Dunia Pengetahuan Digital
                         </h2>
                         <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                            Akses ribuan buku digital, baca langsung di browser,
-                            dan tingkatkan literasi dengan teknologi modern.
-                            Semua dalam satu platform yang mudah digunakan.
+                            Akses buku digital, baca langsung di browser, dan
+                            tingkatkan literasi dengan teknologi modern. Semua
+                            dalam satu platform yang mudah digunakan.
                         </p>
 
                         <div className="flex gap-4">
@@ -71,7 +111,11 @@ export default function LandingPage() {
                                 Mulai Membaca
                             </Button>
 
-                            <Button variant="outline" size="lg">
+                            <Button
+                                variant="outline"
+                                size="lg"
+                                onClick={handleInstall}
+                            >
                                 <Download className="w-5 h-5 mr-2" />
                                 Download App
                             </Button>
@@ -80,14 +124,14 @@ export default function LandingPage() {
                         <div className="mt-8 flex items-center gap-8">
                             <div>
                                 <p className="text-3xl font-bold text-green-600">
-                                    5,000+
+                                    {totalBooks ?? "..."}
                                 </p>
                                 <p className="text-gray-600">Koleksi Buku</p>
                             </div>
 
                             <div>
                                 <p className="text-3xl font-bold text-green-600">
-                                    2,500+
+                                    {totalUsers ?? "..."}
                                 </p>
                                 <p className="text-gray-600">Siswa Aktif</p>
                             </div>
@@ -164,9 +208,11 @@ export default function LandingPage() {
                             Komunitas Aktif
                         </h4>
                         <p className="text-gray-600 leading-relaxed">
-                            Bergabung dengan ribuan siswa lainnya. Lihat
+                            {/* Bergabung dengan ribuan siswa lainnya. Lihat
                             rekomendasi buku populer dan bagikan ulasan dengan
-                            teman-teman.
+                            teman-teman. */}
+                            Fitur komunitas akan hadir segera. Nantikan
+                            rekomendasi buku dan ulasan dari teman-temanmu!
                         </p>
                     </Card>
                 </div>
@@ -207,7 +253,7 @@ export default function LandingPage() {
                             <Card className="p-6 bg-white/10 backdrop-blur-lg text-white border border-white/20">
                                 <Library className="w-10 h-10 mb-4 opacity-80" />
                                 <p className="text-3xl font-bold mb-2">
-                                    5,000+
+                                    {totalBooks ?? "..."}
                                 </p>
                                 <p className="text-green-100">Total Buku</p>
                             </Card>
@@ -215,7 +261,7 @@ export default function LandingPage() {
                             <Card className="p-6 bg-white/10 backdrop-blur-lg text-white border border-white/20">
                                 <Users className="w-10 h-10 mb-4 opacity-80" />
                                 <p className="text-3xl font-bold mb-2">
-                                    2,500+
+                                    {totalUsers ?? "..."}
                                 </p>
                                 <p className="text-green-100">Pengguna Aktif</p>
                             </Card>
@@ -223,18 +269,18 @@ export default function LandingPage() {
                             <Card className="p-6 bg-white/10 backdrop-blur-lg text-white border border-white/20">
                                 <BookOpen className="w-10 h-10 mb-4 opacity-80" />
                                 <p className="text-3xl font-bold mb-2">
-                                    15,000+
+                                    {totalCategories ?? "..."}
                                 </p>
-                                <p className="text-green-100">Buku Dibaca</p>
+                                <p className="text-green-100">Kategori Buku</p>
                             </Card>
-
+                            {/*
                             <Card className="p-6 bg-white/10 backdrop-blur-lg text-white border border-white/20">
                                 <Sparkles className="w-10 h-10 mb-4 opacity-80" />
                                 <p className="text-3xl font-bold mb-2">4.9/5</p>
                                 <p className="text-green-100">
                                     Rating Pengguna
                                 </p>
-                            </Card>
+                            </Card> */}
                         </div>
                     </div>
                 </div>

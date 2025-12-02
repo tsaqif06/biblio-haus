@@ -8,6 +8,15 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 
 Route::middleware('throttle:api')->group(function () {
+    Route::get('/public/stats', function () {
+        return [
+            'total_books' => \App\Models\Book::count(),
+            'total_users' => \App\Models\User::count(),
+            'total_categories' => \App\Models\Book::distinct('category')->count('category'),
+        ];
+    });
+
+
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 

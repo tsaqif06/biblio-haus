@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import Button from "../components/Button";
 import Card from "../components/Card";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function LandingPage() {
     const [totalBooks, setTotalBooks] = useState<number | null>(null);
@@ -17,9 +17,13 @@ export default function LandingPage() {
     const [totalCategories, setTotalCategories] = useState<number | null>(null);
     const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
-        fetchStats();
+        if (location.pathname === "/") {
+            fetchStats();
+        }
+
         const handler = (e: any) => {
             e.preventDefault();
             setDeferredPrompt(e);
@@ -27,7 +31,7 @@ export default function LandingPage() {
         window.addEventListener("beforeinstallprompt", handler);
 
         return () => window.removeEventListener("beforeinstallprompt", handler);
-    }, []);
+    }, [location.pathname]);
 
     const fetchStats = async () => {
         try {
@@ -49,8 +53,6 @@ export default function LandingPage() {
         if (outcome === "accepted") console.log("User accepted the install");
         setDeferredPrompt(null);
     };
-
-    if (!deferredPrompt) return null;
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50">
@@ -114,7 +116,10 @@ export default function LandingPage() {
                             <Button
                                 variant="outline"
                                 size="lg"
-                                onClick={handleInstall}
+                                onClick={() => {
+                                    if (!deferredPrompt) return;
+                                    handleInstall();
+                                }}
                             >
                                 <Download className="w-5 h-5 mr-2" />
                                 Download App

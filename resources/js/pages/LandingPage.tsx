@@ -15,6 +15,7 @@ export default function LandingPage() {
     const [totalBooks, setTotalBooks] = useState<number | null>(null);
     const [totalUsers, setTotalUsers] = useState<number | null>(null);
     const [totalCategories, setTotalCategories] = useState<number | null>(null);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
     const navigate = useNavigate();
     const location = useLocation();
@@ -56,8 +57,8 @@ export default function LandingPage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50">
-            <nav className="bg-white shadow-sm sticky top-0 z-50">
-                <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <nav className="bg-white shadow-sm sticky top-0 z-50 relative">
+                <div className="max-w-7xl mx-auto px-6 py-4 flex items-start justify-between">
                     <div className="flex items-center gap-3">
                         <div className="bg-green-600 p-2 rounded-lg">
                             <Library className="w-8 h-8 text-white" />
@@ -71,7 +72,8 @@ export default function LandingPage() {
                             </p>
                         </div>
                     </div>
-                    <div className="flex gap-3">
+
+                    <div className="hidden lg:flex gap-3">
                         <Button
                             className={`cursor-pointer`}
                             variant="outline"
@@ -86,7 +88,78 @@ export default function LandingPage() {
                             Masuk Sebagai Admin
                         </Button>
                     </div>
+
+                    <button
+                        className="lg:hidden p-2 rounded-lg text-gray-700 hover:bg-green-50"
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    >
+                        {isMenuOpen ? (
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-6 w-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        ) : (
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-6 w-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M4 6h16M4 12h16m-7 6h7"
+                                />
+                            </svg>
+                        )}
+                    </button>
                 </div>
+
+                {isMenuOpen && (
+                    <div className="lg:hidden absolute top-full left-0 w-full bg-white shadow-lg z-40 transition-all duration-300">
+                        <div className="px-6 py-4 flex flex-col space-y-3">
+                            <Button
+                                className={`cursor-pointer w-full`}
+                                variant="outline"
+                                onClick={() => {
+                                    navigate("/login");
+                                    setIsMenuOpen(false);
+                                }}
+                            >
+                                Masuk Sebagai User
+                            </Button>
+
+                            <Button
+                                className={`cursor-pointer w-full`}
+                                onClick={() => {
+                                    navigate("/login/admin");
+                                    setIsMenuOpen(false);
+                                }}
+                            >
+                                Masuk Sebagai Admin
+                            </Button>
+
+                            {/* <a
+                            href="#"
+                            className="block text-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 rounded-lg"
+                        >
+                            Koleksi Buku
+                        </a> */}
+                        </div>
+                    </div>
+                )}
             </nav>
 
             <section className="max-w-7xl mx-auto px-6 py-20">

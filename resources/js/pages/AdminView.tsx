@@ -979,8 +979,8 @@ export default function AdminView({ onBack }: AdminViewProps) {
             </div>
 
             {showAddModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-6">
-                    <Card className="max-w-2xl w-full p-8">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 sm:p-6 overflow-y-auto">
+                    <Card className="max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-2xl font-bold text-gray-900">
                                 Tambah Buku Baru
@@ -989,7 +989,20 @@ export default function AdminView({ onBack }: AdminViewProps) {
                                 onClick={() => setShowAddModal(false)}
                                 className="text-gray-400 hover:text-gray-600 transition-colors"
                             >
-                                <ArrowLeft className="w-6 h-6" />
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="w-6 h-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
+                                </svg>
                             </button>
                         </div>
 
@@ -1102,7 +1115,7 @@ export default function AdminView({ onBack }: AdminViewProps) {
                             </div>
 
                             {/* BUTTON */}
-                            <div className="flex gap-4 pt-4">
+                            <div className="flex flex-col sm:flex-row gap-4 pt-4">
                                 <Button
                                     className="flex-1 flex items-center justify-center gap-2"
                                     onClick={handleAddSubmit}
@@ -1125,7 +1138,7 @@ export default function AdminView({ onBack }: AdminViewProps) {
             )}
 
             {showConfirmModal && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[999] px-6">
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[999] p-4 sm:px-6">
                     <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 animate-in fade-in zoom-in-95 duration-200">
                         <div className="flex items-center gap-3 mb-4">
                             <div className="bg-red-100 text-red-600 p-2 rounded-full">
@@ -1154,17 +1167,17 @@ export default function AdminView({ onBack }: AdminViewProps) {
                             ini tidak dapat dibatalkan.
                         </p>
 
-                        <div className="flex justify-end gap-3">
+                        <div className="flex flex-col-reverse sm:flex-row justify-end gap-3">
                             <button
                                 onClick={() => setShowConfirmModal(false)}
-                                className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
+                                className="w-full sm:w-auto px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors"
                             >
                                 Batal
                             </button>
 
                             <button
                                 onClick={handleConfirmDelete}
-                                className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700"
+                                className="w-full sm:w-auto px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors"
                             >
                                 Hapus
                             </button>
@@ -1174,8 +1187,8 @@ export default function AdminView({ onBack }: AdminViewProps) {
             )}
 
             {showEditModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-6">
-                    <Card className="max-w-2xl w-full p-8">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 sm:p-6 overflow-y-auto">
+                    <Card className="max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-2xl font-bold text-gray-900">
                                 Edit Buku
@@ -1184,7 +1197,20 @@ export default function AdminView({ onBack }: AdminViewProps) {
                                 onClick={() => setShowEditModal(false)}
                                 className="text-gray-400 hover:text-gray-600 transition-colors"
                             >
-                                <ArrowLeft className="w-6 h-6" />
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="w-6 h-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
+                                </svg>
                             </button>
                         </div>
 
@@ -1231,7 +1257,6 @@ export default function AdminView({ onBack }: AdminViewProps) {
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
                                         Cover Buku
                                     </label>
-
                                     <input
                                         type="file"
                                         accept="image/*"
@@ -1248,7 +1273,7 @@ export default function AdminView({ onBack }: AdminViewProps) {
 
                                     {typeof editBook.cover === "string" && (
                                         <p className="text-sm text-gray-500 mt-1">
-                                            Cover lama: {editBook.cover}
+                                            Cover lama: **{editBook.cover}**
                                         </p>
                                     )}
                                 </div>
@@ -1276,29 +1301,34 @@ export default function AdminView({ onBack }: AdminViewProps) {
 
                                 {typeof editBook.pdf_file === "string" && (
                                     <p className="text-sm text-gray-500 mt-1">
-                                        PDF lama: {editBook.pdf_file}
+                                        PDF lama: **{editBook.pdf_file}**
                                     </p>
                                 )}
                             </div>
 
                             {/* DESKRIPSI */}
-                            <textarea
-                                rows={4}
-                                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg"
-                                value={editBook.description}
-                                onChange={(e) =>
-                                    setEditBook({
-                                        ...editBook,
-                                        description: e.target.value,
-                                    })
-                                }
-                            />
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Deskripsi
+                                </label>
+                                <textarea
+                                    rows={4}
+                                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-green-500 focus:outline-none transition-colors"
+                                    value={editBook.description}
+                                    onChange={(e) =>
+                                        setEditBook({
+                                            ...editBook,
+                                            description: e.target.value,
+                                        })
+                                    }
+                                ></textarea>
+                            </div>
 
                             {/* BUTTON */}
-                            <div className="flex gap-4 pt-4">
+                            <div className="flex flex-col sm:flex-row gap-4 pt-4">
                                 <Button
                                     onClick={handleEditSubmit}
-                                    className="flex-1 flex items-center justify-center gap-2"
+                                    className="flex-1 w-full sm:w-auto flex items-center justify-center gap-2"
                                 >
                                     <Edit className="w-5 h-5" />
                                     <span>Simpan Perubahan</span>
@@ -1306,8 +1336,8 @@ export default function AdminView({ onBack }: AdminViewProps) {
 
                                 <Button
                                     variant="outline"
-                                    className="flex-1"
                                     onClick={() => setShowEditModal(false)}
+                                    className="flex-1 w-full sm:w-auto"
                                 >
                                     Batal
                                 </Button>
@@ -1318,8 +1348,8 @@ export default function AdminView({ onBack }: AdminViewProps) {
             )}
 
             {showAddModalUser && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-6">
-                    <Card className="max-w-2xl w-full p-8">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 sm:p-6 overflow-y-auto">
+                    <Card className="max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-2xl font-bold text-gray-900">
                                 Tambah User Baru
@@ -1328,7 +1358,20 @@ export default function AdminView({ onBack }: AdminViewProps) {
                                 onClick={() => setShowAddModalUser(false)}
                                 className="text-gray-400 hover:text-gray-600 transition-colors"
                             >
-                                <ArrowLeft className="w-6 h-6" />
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="w-6 h-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
+                                </svg>
                             </button>
                         </div>
 
@@ -1382,7 +1425,6 @@ export default function AdminView({ onBack }: AdminViewProps) {
                                     <Input
                                         placeholder="Masukkan password"
                                         type={showPass ? "text" : "password"}
-                                        className="w-full pr-12"
                                         value={newUser.password}
                                         onChange={(e) =>
                                             handleInputChangeUser(
@@ -1392,7 +1434,7 @@ export default function AdminView({ onBack }: AdminViewProps) {
                                         }
                                     />
                                     <div
-                                        className="absolute right-3 top-[15px] cursor-pointer text-gray-500 hover:text-gray-700 flex items-center h-full"
+                                        className="absolute right-3 top-[37px] cursor-pointer text-gray-500 hover:text-gray-700"
                                         onClick={() => setShowPass(!showPass)}
                                     >
                                         {showPass ? (
@@ -1429,6 +1471,7 @@ export default function AdminView({ onBack }: AdminViewProps) {
                                         </p>
                                     )}
                             </div>
+
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
                                     Role
@@ -1450,9 +1493,9 @@ export default function AdminView({ onBack }: AdminViewProps) {
                             </div>
 
                             {/* BUTTON */}
-                            <div className="flex gap-4 pt-4">
+                            <div className="flex flex-col sm:flex-row gap-4 pt-4">
                                 <Button
-                                    className="flex-1 flex items-center justify-center gap-2"
+                                    className="flex-1 w-full sm:w-auto flex items-center justify-center gap-2"
                                     onClick={handleAddSubmitUser}
                                 >
                                     <Plus className="w-5 h-5" />
@@ -1461,8 +1504,8 @@ export default function AdminView({ onBack }: AdminViewProps) {
 
                                 <Button
                                     variant="outline"
-                                    className="flex-1"
                                     onClick={() => setShowAddModalUser(false)}
+                                    className="flex-1 w-full sm:w-auto"
                                 >
                                     Batal
                                 </Button>
@@ -1473,7 +1516,7 @@ export default function AdminView({ onBack }: AdminViewProps) {
             )}
 
             {showConfirmModalUser && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[999] px-6">
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[999] p-4 sm:px-6">
                     <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 animate-in fade-in zoom-in-95 duration-200">
                         <div className="flex items-center gap-3 mb-4">
                             <div className="bg-red-100 text-red-600 p-2 rounded-full">
@@ -1502,17 +1545,17 @@ export default function AdminView({ onBack }: AdminViewProps) {
                             ini tidak dapat dibatalkan.
                         </p>
 
-                        <div className="flex justify-end gap-3">
+                        <div className="flex flex-col-reverse sm:flex-row justify-end gap-3">
                             <button
                                 onClick={() => setShowConfirmModalUser(false)}
-                                className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
+                                className="w-full sm:w-auto px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors"
                             >
                                 Batal
                             </button>
 
                             <button
                                 onClick={handleConfirmDeleteUser}
-                                className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700"
+                                className="w-full sm:w-auto px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors"
                             >
                                 Hapus
                             </button>
@@ -1522,8 +1565,8 @@ export default function AdminView({ onBack }: AdminViewProps) {
             )}
 
             {showEditModalUser && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-6">
-                    <Card className="max-w-2xl w-full p-8">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 sm:p-6 overflow-y-auto">
+                    <Card className="max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-2xl font-bold text-gray-900">
                                 Edit User
@@ -1532,7 +1575,20 @@ export default function AdminView({ onBack }: AdminViewProps) {
                                 onClick={() => setShowEditModalUser(false)}
                                 className="text-gray-400 hover:text-gray-600 transition-colors"
                             >
-                                <ArrowLeft className="w-6 h-6" />
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="w-6 h-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
+                                </svg>
                             </button>
                         </div>
 
@@ -1585,7 +1641,6 @@ export default function AdminView({ onBack }: AdminViewProps) {
                                         placeholder="Kosongkan jika tidak ingin mengubah password"
                                         autoComplete="new-password"
                                         type={showPass ? "text" : "password"}
-                                        className="w-full pr-12"
                                         value={editUser.password}
                                         onChange={(e: any) =>
                                             setEditUser({
@@ -1595,7 +1650,7 @@ export default function AdminView({ onBack }: AdminViewProps) {
                                         }
                                     />
                                     <div
-                                        className="absolute right-3 top-[15px] cursor-pointer text-gray-500 hover:text-gray-700 flex items-center h-full"
+                                        className="absolute right-3 top-[37px] cursor-pointer text-gray-500 hover:text-gray-700"
                                         onClick={() => setShowPass(!showPass)}
                                     >
                                         {showPass ? (
@@ -1628,8 +1683,8 @@ export default function AdminView({ onBack }: AdminViewProps) {
 
                                 {typeof editUser.profile_photo === "string" && (
                                     <p className="text-sm text-gray-500 mt-1">
-                                        Foto Profil lama:{" "}
-                                        {editUser.profile_photo}
+                                        Foto Profil lama: **
+                                        {editUser.profile_photo}**
                                     </p>
                                 )}
                             </div>
@@ -1655,10 +1710,10 @@ export default function AdminView({ onBack }: AdminViewProps) {
                             </div>
 
                             {/* BUTTON */}
-                            <div className="flex gap-4 pt-4">
+                            <div className="flex flex-col sm:flex-row gap-4 pt-4">
                                 <Button
                                     onClick={handleEditSubmitUser}
-                                    className="flex-1 flex items-center justify-center gap-2"
+                                    className="flex-1 w-full sm:w-auto flex items-center justify-center gap-2"
                                 >
                                     <Edit className="w-5 h-5" />
                                     <span>Simpan Perubahan</span>
@@ -1666,8 +1721,8 @@ export default function AdminView({ onBack }: AdminViewProps) {
 
                                 <Button
                                     variant="outline"
-                                    className="flex-1"
                                     onClick={() => setShowEditModalUser(false)}
+                                    className="flex-1 w-full sm:w-auto"
                                 >
                                     Batal
                                 </Button>
